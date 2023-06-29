@@ -86,6 +86,7 @@ function ChatAgent({ animal, conversation }: { animal: string, conversation: str
 
 
 export async function POST(request: NextRequest) {
+  console.log(request);
   const json = await request.json();  
   console.log(json);  
   const input = json.SpeechResult
