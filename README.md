@@ -11,6 +11,7 @@ Deploy the example using [Vercel](https://vercel.com?utm_source=github) or previ
 ## How to use
 
 ```bash
+npx create-next-app@latest twilai --use-npm --example "https://github.com/fixie-ai/twilai"
 yarn install
 yarn dev
 ```
