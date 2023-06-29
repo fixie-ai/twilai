@@ -69,12 +69,12 @@ const indexCorpus = _.once(async () => {
   return corpus;
 });
 
-const corpus = await indexCorpus();
+/*const corpus = await indexCorpus();
 
 export function DocsAgent({ question }: { question: string }) {
   return <DocsQA question={question} corpus={corpus} chunkLimit={5} chunkFormatter={DefaultFormatter} />;
 }
-
+*/
 
 function ChatAgent({ conversation }: { conversation: string[] }) {
   return (
