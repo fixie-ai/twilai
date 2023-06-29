@@ -89,11 +89,11 @@ export async function POST(request: NextRequest) {
   const json = await request.json();  
   console.log(json);  
   const input = json.SpeechResult
-  const state = cookies().get('state');
   let output;
   let animal;
   let conversation;
-  if (input && state) {    
+  if (input) {    
+    const state = cookies().get('state');    
     const obj = JSON.parse(state.value);    
     conversation = obj["conversation"];
     animal = obj["animal"];
