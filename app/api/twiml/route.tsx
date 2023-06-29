@@ -1,8 +1,5 @@
 /** @jsxImportSource ai-jsx */
-import type { NextApiRequest, NextApiResponse } from 'next'
-import { NextRequest } from 'next/server';
-
-import { cookies } from 'next/headers'
+import { NextRequest, NextResponse } from 'next/server';
 import * as AI from 'ai-jsx';
 import { AssistantMessage, ChatCompletion, SystemMessage, UserMessage } from 'ai-jsx/core/completion';
 import _ from 'lodash';
@@ -86,11 +83,11 @@ function ChatAgent({ animal, conversation }: { animal: string, conversation: str
 
 
 export async function POST(request: NextRequest) {
-  console.log(request);
+  console.log(request.body);
   const json = await request.json();  
   console.log(json);  
   const input = json.SpeechResult
-  const state = cookies().get('state');
+  const state = request.cookies.get('state');
   let output;
   let animal;
   let conversation;
@@ -107,8 +104,7 @@ export async function POST(request: NextRequest) {
     output = `Hi, I'm a friendly ${animal}. What's your name?`;    
   }
   conversation.push(output);  
-  cookies().set('state', JSON.stringify({ "animal": animal, "conversation": conversation }));
-  const response = `<Response>
+  const twiml = `<Response>
     <Gather input="speech" speechTimeout=${SPEECH_TIMEOUT} speechModel=${SPEECH_MODEL} enhanced="true" action="/api/twiml">
       <Say voice=${SPEAKER_VOICE} language=${SPEAKER_LANGUAGE}>${output}</Say>
     </Gather>
@@ -117,10 +113,13 @@ export async function POST(request: NextRequest) {
     </Gather>
     <Say voice=${SPEAKER_VOICE} language=${SPEAKER_LANGUAGE}>Goodbye!</Say>
   </Response>`;
-  console.log(response);
-  return new Response(response, {
+  console.log(twiml);
+  const newState = JSON.stringify({ "animal": animal, "conversation": conversation });
+  const response = new NextResponse(twiml, {
     headers: {
       'Content-Type': 'text/xml',
+      'Set-Cookie': 'state=' + newState
     },
   });
+  return response;
 }
