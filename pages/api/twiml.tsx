@@ -10,6 +10,7 @@ import _ from 'lodash';
 const SPEAKER_VOICE = '"Polly.Justin-Neural"';
 const SPEAKER_LANGUAGE = '"en-US"';
 const SPEECH_MODEL = '"phone_call"';
+const SPEECH_TIMEOUT = '"2"';
 
 /**
  * This is a very simple example of how to build a document corpus.
@@ -105,15 +106,15 @@ export default async function handler(
     conversation = cookie ? JSON.parse(cookie.value) : [];    
     conversation.push(input);
     console.log(conversation);
-    output = await AI.createRenderContext().render(<DocsAgent question={input} />);    
+    output = await AI.createRenderContext().render(<ChatAgent conversation={conversation} />);    
   }
   conversation.push(output);
   //cookies().set('conversation', JSON.stringify([]))
   const response = `<Response>
-    <Gather input="speech" speechTimeout="auto" speechModel=${SPEECH_MODEL} action="/api/twiml">
+    <Gather input="speech" speechTimeout=${SPEECH_TIMEOUT} speechModel=${SPEECH_MODEL} action="/api/twiml">
       <Say voice=${SPEAKER_VOICE} language=${SPEAKER_LANGUAGE}>${output}</Say>
     </Gather>
-    <Gather input="speech" speechTimeout="2" action="/api/twiml">
+    <Gather input="speech" speechTimeout=${SPEECH_TIMEOUT} action="/api/twiml">
       <Say voice=${SPEAKER_VOICE} language=${SPEAKER_LANGUAGE}>Are you still there?</Say>
     </Gather>
     <Say voice=${SPEAKER_VOICE} language=${SPEAKER_LANGUAGE}>Goodbye!</Say>
