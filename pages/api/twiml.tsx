@@ -99,7 +99,7 @@ export default async function handler(
 ) {  
   console.log(req.body);  
   const input = req.body.SpeechResult
-  let output =  "Hi, I'm a friendly AI. Ask me anything!";
+  let output =  "Hi, I'm a friendly AI. What's your name?";
   let conversation = [];  
   if (input) {    
     const cookie = null;//cookies().get('conversation');
