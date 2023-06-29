@@ -111,7 +111,7 @@ export default async function handler(
   conversation.push(output);
   //cookies().set('conversation', JSON.stringify([]))
   const response = `<Response>
-    <Gather input="speech" speechTimeout=${SPEECH_TIMEOUT} speechModel=${SPEECH_MODEL} action="/api/twiml">
+    <Gather input="speech" speechTimeout=${SPEECH_TIMEOUT} speechModel=${SPEECH_MODEL} enhanced="true" action="/api/twiml">
       <Say voice=${SPEAKER_VOICE} language=${SPEAKER_LANGUAGE}>${output}</Say>
     </Gather>
     <Gather input="speech" speechTimeout=${SPEECH_TIMEOUT} action="/api/twiml">
