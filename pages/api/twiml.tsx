@@ -68,8 +68,10 @@ const indexCorpus = _.once(async () => {
   return corpus;
 });
 
-export async function DocsAgent({ question }: { question: string }) {
-  return <DocsQA question={question} corpus={await indexCorpus()} chunkLimit={5} chunkFormatter={DefaultFormatter} />;
+const corpus = await indexCorpus();
+
+export function DocsAgent({ question }: { question: string }) {
+  return <DocsQA question={question} corpus={corpus} chunkLimit={5} chunkFormatter={DefaultFormatter} />;
 }
 
 
@@ -103,7 +105,7 @@ export default async function handler(
     conversation = cookie ? JSON.parse(cookie.value) : [];    
     conversation.push(input);
     console.log(conversation);
-    output = await AI.createRenderContext().render(<DocsAgent question={input} />);    
+    output = await AI.createRenderContext().render(await <DocsAgent question={input} />);    
   }
   conversation.push(output);
   //cookies().set('conversation', JSON.stringify([]))
