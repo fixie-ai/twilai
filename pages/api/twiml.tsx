@@ -3,9 +3,9 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import * as AI from 'ai-jsx';
 import { AssistantMessage, ChatCompletion, SystemMessage, UserMessage } from 'ai-jsx/core/completion';
 
-const SPEAKER_VOICE = "Google.en-US-Neural2-C"
-const SPEAKER_LANGUAGE = "en-US"
-const SPEECH_MODEL = "experimental_conversations"
+const SPEAKER_VOICE = '"Google.en-US-Neural2-C"';
+const SPEAKER_LANGUAGE = '"en-US"';
+const SPEECH_MODEL = '"experimental_conversations"';
 
 function ChatAgent({ conversation }: { conversation: string[] }) {
   return (
@@ -36,13 +36,13 @@ export default async function handler(
   }
   const response = `<Response>
     <Gather input="speech" speechTimeout="auto" speechModel=${SPEECH_MODEL} action="/api/twiml?foo=bar">
-      <Say voice=${SPEAKER_VOICE} language=${SPEAKER_LANGUAGE}">${output}</Say>
+      <Say voice=${SPEAKER_VOICE} language=${SPEAKER_LANGUAGE}>${output}</Say>
     </Gather>
     <Gather input="speech" speechTimeout="auto" action="/api/twiml">
       <Say voice=${SPEAKER_VOICE} language=${SPEAKER_LANGUAGE}>Are you still there?</Say>
     </Gather>
     <Say voice=${SPEAKER_VOICE} language=${SPEAKER_LANGUAGE}>Goodbye!</Say>
-  </Response>`
+  </Response>`;
   console.log(response);
   res.status(200)
   res.setHeader('Content-Type', 'text/xml')
