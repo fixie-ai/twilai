@@ -105,7 +105,7 @@ export default async function handler(
     conversation = cookie ? JSON.parse(cookie.value) : [];    
     conversation.push(input);
     console.log(conversation);
-    output = await AI.createRenderContext().render(await <DocsAgent question={input} />);    
+    output = await AI.createRenderContext().render(<DocsAgent question={input} />);    
   }
   conversation.push(output);
   //cookies().set('conversation', JSON.stringify([]))
